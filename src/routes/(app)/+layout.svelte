@@ -1,3 +1,8 @@
+<script>
+    // TODO: Setup global websocket handler, store and api handlers,
+    //       or maybe use "./+layout.ts" for this
+</script>
+
 <div class="ui-app-bar">
     <span class="ui-app-bar-left">
         <slot name="left"></slot>
