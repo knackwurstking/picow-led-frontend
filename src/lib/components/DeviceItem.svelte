@@ -30,7 +30,6 @@
     <span class="ui-flex-item ui-flex row gap" style="flex: 0">
         <span class="ui-flex-item" style="flex: 0">
 
-            <!-- TODO: on:click => route to device page -->
             <button
                 class="edit"
                 data-ui-variant="ghost"
