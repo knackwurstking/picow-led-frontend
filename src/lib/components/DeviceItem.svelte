@@ -1,5 +1,5 @@
 <script lang="ts">
-    import svgPower from "ui/svg/power.svg"
+    import SVGPower from "./SVGPower.svelte"
 
     let {
         addr, name, color, pins, active_color, power
@@ -52,12 +52,14 @@
                 data-state={powerButtonState}
                 onclick={powerButtonClick}
             >
+
+                <!-- TODO: Set background color based on `color` -->
                 <div
                     class="background"
                     style="background-color: rgb(0, 0, 0)"
                 ></div>
 
-                {svgPower}
+                <SVGPower />
             </button>
         </span>
     </span>
