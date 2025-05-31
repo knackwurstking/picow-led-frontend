@@ -51,10 +51,9 @@
                 onclick={powerButtonClick}
             >
 
-                <!-- TODO: Set background color based on `color` -->
                 <div
                     class="background"
-                    style="background-color: rgb(0, 0, 0)"
+                    style="background-color: rgb({color.length >= 3 ? color.slice(0, 3).join(", ") : "0, 0, 0"})"
                 ></div>
 
                 <SVGPower />
