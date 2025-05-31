@@ -1,7 +1,8 @@
 <script lang="ts">
     import "ui/dist/ui.css"
 
-    import type { Snippet } from "svelte";
+    import { onMount, type Snippet } from "svelte";
+    import * as ui from "ui"
 
     const { 
         appBarTitle, appBarLeft, appBarRight, children
@@ -9,7 +10,29 @@
         appBarTitle: Snippet, appBarLeft: Snippet, appBarRight: Snippet, children: Snippet<[]>
     } = $props()
 
-    const onlineIndicator_DataState = $state<"offline" | "online">("offline")
+    let onlineIndicator_DataState = $state<"offline" | "online">("offline")
+
+    const ws = new ui.WS<WSMessageData>("", true) // TODO: Add url here
+
+    onMount(async () => {
+        await ws.connect()
+
+        console.debug("Adding all WebSocket event listeners now")
+
+        ws.events.addListener("open", () => {
+            console.debug("ws open...")
+            onlineIndicator_DataState = "online"
+        })
+
+        ws.events.addListener("close", () => {
+            console.debug("ws close...")
+            onlineIndicator_DataState = "offline"
+        })
+
+        ws.events.addListener("error", () => {
+            console.debug("ws error...")
+        })
+    })
 </script>
 
 <div class="ui-app-bar">
