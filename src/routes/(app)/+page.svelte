@@ -2,5 +2,5 @@
 </script>
 
 <svelte:head>
-    <title>PicoW LED</title>
+    <title>PicoW LED | Devices</title>
 </svelte:head>
