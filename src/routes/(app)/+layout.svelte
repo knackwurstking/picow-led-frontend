@@ -35,7 +35,9 @@
     })
 </script>
 
-<div class="ui-app-bar">
+{@render children()}
+
+<div class="ui-app-bar" data-ui-position="top">
     <span class="ui-app-bar-left">
         <span class="online-indicator" data-state={onlineIndicator_DataState}></span>
 
@@ -60,8 +62,6 @@
         {/if}
     </span>
 </div>
-
-{@render children()}
 
 <style>
     .online-indicator {
