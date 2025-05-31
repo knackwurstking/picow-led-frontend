@@ -17,7 +17,7 @@
     onMount(async () => {
         await ws.connect()
 
-        console.debug("Adding all WebSocket event listeners now")
+        console.debug("Adding all WebSocket event listeners")
 
         ws.events.addListener("open", () => {
             console.debug("ws open...")
