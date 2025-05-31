@@ -10,14 +10,10 @@
     let powerButtonState = $state<"off" | "on" | "processing">(power === 1 ? "on" : "off")
 
     async function editButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
-        console.debug("Edit button clicked...", addr, name, { color, pins, active_color, power })
-
         // TODO: ...
     }
 
     async function powerButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
-        console.debug("Power button clicked...", addr, name, { color, pins, active_color, power })
-
         const prevPowerButtonState = powerButtonState
         powerButtonState = "processing"
         try {
@@ -29,13 +25,21 @@
 </script>
 
 <li class="ui-flex row gap justify-between align-center ui-padding">
-    <h3 class="ui-padding">
+    <span class="ui-padding ui-flex column justify-start">
+        <h3>
+            {#if name}
+                {name}
+            {:else}
+                {addr}
+            {/if}
+        </h3>
+
         {#if name}
-            {name}
-        {:else}
-            {addr}
+            <h6>
+                {addr}
+            </h6>
         {/if}
-    </h3>
+    </span>
 
     <span class="ui-flex-item ui-flex row gap" style="flex: 0">
         <span class="ui-flex-item" style="flex: 0">
