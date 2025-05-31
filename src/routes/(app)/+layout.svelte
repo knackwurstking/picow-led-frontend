@@ -12,24 +12,24 @@
 
     let onlineIndicator_DataState = $state<"offline" | "online">("offline")
 
-    const ws = new ui.WS<WSMessageData>("/ws", true)
+    window.ws = new ui.WS<WSMessageData>("/ws", true)
 
     onMount(async () => {
-        await ws.connect()
+        await window.ws.connect()
 
         console.debug("Adding all WebSocket event listeners")
 
-        ws.events.addListener("open", () => {
+        window.ws.events.addListener("open", () => {
             console.debug("ws open...")
             onlineIndicator_DataState = "online"
         })
 
-        ws.events.addListener("close", () => {
+        window.ws.events.addListener("close", () => {
             console.debug("ws close...")
             onlineIndicator_DataState = "offline"
         })
 
-        ws.events.addListener("error", () => {
+        window.ws.events.addListener("error", () => {
             console.debug("ws error...")
         })
     })
