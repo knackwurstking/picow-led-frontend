@@ -1,6 +1,8 @@
 <script lang="ts">
     import SVGPower from "./SVGPower.svelte"
 
+    import * as api from "$lib/api"
+
     let {
         addr, name, color, pins, active_color, power
     }: Device = $props()
@@ -16,7 +18,13 @@
     async function powerButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
         console.debug("Power button clicked...", addr, name, { color, pins, active_color, power })
 
-        // TODO: ...
+        const prevPowerButtonState = powerButtonState
+        powerButtonState = "processing"
+        try {
+            await api.power.post(addr, power === api.PowerStateON ? api.PowerStateOFF : api.PowerStateON)
+        } finally {
+            powerButtonState = prevPowerButtonState
+        }
     }
 </script>
 
@@ -46,7 +54,6 @@
         <span class="ui-flex-item" style="flex: 0">
             <button
                 class="power"
-                style=""
                 data-ui-variant="ghost"
                 data-ui-icon
                 data-state={powerButtonState}
