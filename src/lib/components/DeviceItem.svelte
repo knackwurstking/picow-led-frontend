@@ -8,12 +8,14 @@
     let powerButtonState = $state<"off" | "on" | "processing">(power === 1 ? "on" : "off")
 
     async function editButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
-        console.debug("Edit button clicked...")
+        console.debug("Edit button clicked...", addr, name, { color, pins, active_color, power })
+
         // TODO: ...
     }
 
     async function powerButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
-        console.debug("Power button clicked...")
+        console.debug("Power button clicked...", addr, name, { color, pins, active_color, power })
+
         // TODO: ...
     }
 </script>
