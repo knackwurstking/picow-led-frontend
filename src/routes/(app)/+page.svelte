@@ -11,13 +11,14 @@
         // Fetch devices from /api and render items
         devices = await api.devices.get()
 
-        // TODO: Handle WebSocket message events ("devices", "device")
+        // Handle WebSocket message events ("devices", "device")
         window.ws.events.addListener("message", async (data) => {
             switch (data.type) {
                 case "devices":
                     {
                         console.debug(`ws "devices" event:`, data.data)
-                        // TODO: Update device list
+
+                        devices = data.data
                     }
                     break
 
