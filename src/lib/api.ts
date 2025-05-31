@@ -1,7 +1,11 @@
 export const devices = {
-    get(): Devices {
-        // TODO: ...
+    async get(): Promise<Devices> {
+        const r = await fetch(`/api/devices`);
 
-        return [];
+        if (!r.ok) {
+            throw new Error(r.statusText);
+        }
+
+        return await r.json();
     },
 };
