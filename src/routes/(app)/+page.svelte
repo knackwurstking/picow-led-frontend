@@ -34,6 +34,19 @@
 </svelte:head>
 
 <ul>
+
+    <!-- NOTE: Test item -->
+    <DeviceItem {
+        ...{ 
+            addr: "192.168.178.50:3000", 
+            name: "Test Device", 
+            color: [0,0,0,0], 
+            pins:[1,2,3,4], 
+            active_color: [255,255,255,255], 
+            power: 0 
+        }
+    } />
+
     {#each devices as device}
         <DeviceItem {...device} />
     {/each}
