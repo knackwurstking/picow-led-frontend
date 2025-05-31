@@ -9,6 +9,10 @@ declare global {
         // interface Platform {}
     }
 
+    interface Window {
+        ws: import("ui").WS<WSMessageData>;
+    }
+
     type Device = {
         addr: string;
         name: string;
