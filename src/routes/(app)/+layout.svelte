@@ -1,29 +1,42 @@
 <script lang="ts">
     import "ui/dist/ui.css"
 
-    const onlineIndicator_DataState: "offline" | "online" = $state("offline")
+    import type { Snippet } from "svelte";
 
-    // TODO: Setup global websocket handler, store and api handlers,
-    //       or maybe use "./+layout.ts" for this
+    const { 
+        appBarTitle, appBarLeft, appBarRight, children
+    }: {
+        appBarTitle: Snippet, appBarLeft: Snippet, appBarRight: Snippet, children: Snippet<[]>
+    } = $props()
+
+    const onlineIndicator_DataState = $state<"offline" | "online">("offline")
 </script>
 
 <div class="ui-app-bar">
     <span class="ui-app-bar-left">
         <span class="online-indicator" data-state={onlineIndicator_DataState}></span>
 
-        <slot name="app-bar-left"></slot>
+        {#if appBarLeft}
+            {@render appBarLeft()}
+        {/if}
     </span>
 
     <span class="ui-app-bar-center">
-        <h4><slot name="app-bar-title"></slot></h4>
+        <h4>
+            {#if appBarTitle}
+                {@render appBarTitle()}
+            {/if}
+        </h4>
     </span>
 
     <span class="ui-app-bar-right">
-        <slot name="app-bar-right"></slot>
+        {#if appBarRight}
+            {@render appBarRight()}
+        {/if}
     </span>
 </div>
 
-<slot></slot>
+{@render children()}
 
 <style>
     .online-indicator {
