@@ -35,7 +35,9 @@
     })
 </script>
 
-{@render children()}
+<main class="ui-container">
+    {@render children()}
+</main>
 
 <div class="ui-app-bar" data-ui-position="top">
     <span class="ui-app-bar-left">
