@@ -1,5 +1,9 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { onMount } from "svelte"
+
+    import DeviceItem from "$lib/components/DeviceItem.svelte";
+
+    let devices = $state<Devices>([])
 
     onMount(async () => {
         // TODO: Fetch devices from /api and render items
@@ -29,4 +33,8 @@
     <title>PicoW LED | Devices</title>
 </svelte:head>
 
-<ul id="deviceList"></ul>
+<ul>
+    {#each devices as device}
+        <DeviceItem {...device} />
+    {/each}
+</ul>
