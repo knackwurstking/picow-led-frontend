@@ -25,6 +25,8 @@
         <h4>
             {#if appBarTitle}
                 {@render appBarTitle()}
+            {:else}
+                Devices
             {/if}
         </h4>
     </span>
