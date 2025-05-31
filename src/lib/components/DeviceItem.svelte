@@ -42,7 +42,6 @@
         </span>
 
         <span class="ui-flex-item" style="flex: 0">
-            <!-- data-state: "on" | "off" | "processing" -->
             <button
                 class="power"
                 style=""
