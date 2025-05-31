@@ -12,7 +12,7 @@
 
     let onlineIndicator_DataState = $state<"offline" | "online">("offline")
 
-    const ws = new ui.WS<WSMessageData>("", true) // TODO: Add url here
+    const ws = new ui.WS<WSMessageData>("/ws", true)
 
     onMount(async () => {
         await ws.connect()
