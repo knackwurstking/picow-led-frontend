@@ -13,13 +13,15 @@ declare global {
         ws: import("ui").WS<WSMessageData>;
     }
 
+    type PowerState = 0 | 1;
+
     type Device = {
         addr: string;
         name: string;
         color: number[];
         pins: number[];
         active_color: number[];
-        power: 0 | 1;
+        power: PowerState;
     };
 
     type Devices = Device[];
