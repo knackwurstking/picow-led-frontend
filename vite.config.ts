@@ -6,12 +6,12 @@ export default defineConfig({
     server: {
         proxy: {
             "/api": {
-                target: "http://localhost:50835/api",
+                target: "http://localhost:50835/",
                 changeOrigin: true,
                 //rewrite: (path) => path.replace(/^\/api/, ''),
             },
             "/ws": {
-                target: "ws://localhost:50835/ws",
+                target: "ws://localhost:50835/",
                 changeOrigin: true,
                 ws: true,
                 //rewrite: (path) => path.replace(/^\/api/, ''),
