@@ -7,7 +7,7 @@
         addr, name, color, pins, active_color, power
     }: Device = $props()
 
-    let powerButtonState = $state<"off" | "on" | "processing">(power === 1 ? "on" : "off")
+    let powerButtonState = $derived<"off" | "on" | "processing">(power === 1 ? "on" : "off")
 
     async function editButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
         // TODO: ...
