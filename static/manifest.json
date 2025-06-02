@@ -41,5 +41,5 @@
     "display": "standalone",
     "scope": ".",
     "start_url": "./",
-    "public_path": "./"
+    "public_path": ""
 }
