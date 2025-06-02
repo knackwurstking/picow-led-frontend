@@ -1,8 +1,6 @@
 <script lang="ts">
     import "ui/dist/ui.css"
 
-    import { pwaInfo } from 'virtual:pwa-info'; 
-
     import { onMount, type Snippet } from "svelte";
     import * as ui from "ui"
 
@@ -13,7 +11,6 @@
     } = $props()
 
     let onlineIndicator_DataState = $state<"offline" | "online">("offline")
-    let webManifestLink = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : "")
 
     window.ws = new ui.WS<WSMessageData>("/ws", true)
 
@@ -37,10 +34,6 @@
         })
     })
 </script>
-
-<svelte:head>
-    {@html webManifestLink}
-</svelte:head>
 
 <main class="ui-container">
     {@render children()}
