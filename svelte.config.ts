@@ -1,11 +1,11 @@
 import adapter from "@sveltejs/adapter-static";
+import { Config } from "@sveltejs/kit";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
-const config = {
+const config: Config = {
     preprocess: vitePreprocess(),
     kit: {
         adapter: adapter(),
-        version: "0.1.0",
     },
 };
 
