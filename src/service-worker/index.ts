@@ -1,27 +1,13 @@
-const CACHE_VERSION = process.env.VERSION;
-const CURRENT_CACHE = "picow-led-" + CACHE_VERSION;
+/// <reference lib="webworker" />
+/// <reference types="@sveltejs/kit" />
+
+import { build, files, version } from "$service-worker";
+
+const CURRENT_CACHE = `picow-led-${version}`;
 
 const cacheFiles = [
-    process.env.SERVER_PATH_PREFIX + "/",
-    process.env.SERVER_PATH_PREFIX + "/settings",
-
-    process.env.SERVER_PATH_PREFIX + "/css/style.css",
-    process.env.SERVER_PATH_PREFIX + "/css/ui-v4.2.1-dev.css",
-
-    process.env.SERVER_PATH_PREFIX + "/js/content/devices-address.js",
-    process.env.SERVER_PATH_PREFIX + "/js/content/devices.js",
-    process.env.SERVER_PATH_PREFIX + "/js/content/settings.js",
-    process.env.SERVER_PATH_PREFIX + "/js/layouts/base.js",
-    process.env.SERVER_PATH_PREFIX + "/js/main.js",
-    process.env.SERVER_PATH_PREFIX + "/js/ui-v4.2.1-dev.min.umd.cjs",
-
-    process.env.SERVER_PATH_PREFIX + "/icons/apple-touch-icon-180x180.png",
-    process.env.SERVER_PATH_PREFIX + "/icons/favicon.ico",
-    process.env.SERVER_PATH_PREFIX + "/icons/icon.png",
-    process.env.SERVER_PATH_PREFIX + "/icons/maskable-icon-512x512.png",
-    process.env.SERVER_PATH_PREFIX + "/icons/pwa-192x192.png",
-    process.env.SERVER_PATH_PREFIX + "/icons/pwa-512x512.png",
-    process.env.SERVER_PATH_PREFIX + "/icons/pwa-64x64.png",
+    ...build,
+    ...files,
 
     "https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap",
 ];
@@ -30,7 +16,6 @@ const cacheFiles = [
 const blackList = ["/screenshots/.*", "/service-worker.js", "/manifest.json"];
 
 self.addEventListener("activate", (evt) => {
-    // @ts-expect-error
     evt.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
@@ -45,7 +30,6 @@ self.addEventListener("activate", (evt) => {
 });
 
 self.addEventListener("install", (evt) => {
-    // @ts-expect-error
     evt.waitUntil(
         (() => {
             caches
@@ -66,10 +50,7 @@ self.addEventListener("install", (evt) => {
     );
 });
 
-const fromNetwork = (
-    /** @type {Request} */ request,
-    /** @type {number} */ timeout,
-) => {
+const fromNetwork = (request: Request, timeout: number) => {
     return new Promise((resolve, reject) => {
         const timeoutId = setTimeout(reject, timeout);
 
@@ -81,39 +62,31 @@ const fromNetwork = (
     });
 };
 
-const fromCache = async (/** @type {Request} */ request) => {
+const fromCache = async (request: Request) => {
     const cache = await caches.open(CURRENT_CACHE);
     const matching = await cache.match(request);
     return matching || cache.match("/offline/");
 };
 
-const update = async (
-    /** @type {Request} */ request,
-    /** @type {Response} */ response,
-) => {
+const update = async (request: Request, response: Response) => {
     const cache = await caches.open(CURRENT_CACHE);
     cache.put(request, response);
 };
 
-const isBlackListed = (/** @type {string} */ url) => {
+const isBlackListed = (url: string) => {
     return blackList.find((path) => new RegExp(".*" + path + "$").test(url));
 };
 
 // @ts-expect-error
-self.addEventListener(
-    "fetch",
-    (/** @type {Event & { request: Request }} */ evt) => {
-        if (!isBlackListed(evt.request.url)) {
-            console.debug(`fetch: caching: ${evt.request.url}`);
+self.addEventListener("fetch", (evt: Event & { request: Request }) => {
+    if (!isBlackListed(evt.request.url)) {
+        console.debug(`fetch: caching: ${evt.request.url}`);
 
-            // @ts-expect-error
-            evt.respondWith(
-                fromNetwork(evt.request, 1e4).catch(() =>
-                    fromCache(evt.request),
-                ),
-            );
-        } else {
-            console.debug(`fetch: no caching for: ${evt.request.url}`);
-        }
-    },
-);
+        // @ts-expect-error
+        evt.respondWith(
+            fromNetwork(evt.request, 1e4).catch(() => fromCache(evt.request)),
+        );
+    } else {
+        console.debug(`fetch: no caching for: ${evt.request.url}`);
+    }
+});
