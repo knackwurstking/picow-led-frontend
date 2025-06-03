@@ -52,3 +52,9 @@
 
     <span class="ui-app-bar-right"></span>
 </div>
+
+<style>
+    main {
+        padding-top: calc(var(--ui-app-bar-height) + var(--ui-spacing));
+    }
+</style>
