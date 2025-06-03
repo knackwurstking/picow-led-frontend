@@ -1,6 +1,9 @@
 <script lang="ts">
-    import { api, utils } from "$lib"
     import { onMount } from "svelte";
+
+    import { api, utils } from "$lib"
+
+    import ColorRangeSlider from "$lib/components/ColorRangeSlider.svelte";
 
     const queryAddr = utils.urlQueryParam("addr")
 
@@ -46,7 +49,8 @@
             class="range-sliders ui-flex column gap nowrap"
             style="display: none"
         >
-            {#each device.pins.slice(3) as pin}
+            {#each device.pins.slice(3) as pin, index}
+                <ColorRangeSlider {pin} bind:value={device.pins[index+3]} />
             {/each}
         </div>
     {/if}
