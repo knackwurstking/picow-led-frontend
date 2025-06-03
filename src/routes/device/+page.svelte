@@ -1,8 +1,9 @@
 <script lang="ts">
+    import { utils } from "$lib"
+
+    const queryAddr = utils.urlQueryParam("addr")
 </script>
 
 <svelte:head>
-    <!-- TODO: Replace "Device" with the current address in use for this page, 
-               take from query "?addr=<string>" -->
-    <title>PicoW LED | Device</title>
+    <title>PicoW LED | {queryAddr}</title>
 </svelte:head>
