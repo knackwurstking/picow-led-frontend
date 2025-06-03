@@ -4,11 +4,15 @@
     import { onMount, type Snippet } from "svelte";
     import * as ui from "ui"
 
+    import { utils } from "$lib"
+
     const { 
         children
     }: {
         children: Snippet<[]>
     } = $props()
+
+    const queryAddr = utils.urlQueryParam("addr")
 
     let onlineIndicator_DataState = $state<"offline" | "online">("offline")
 
@@ -45,7 +49,7 @@
     </span>
 
     <span class="ui-app-bar-center">
-        <h4>Devices</h4>
+        <h4>{queryAddr}</h4>
     </span>
 
     <span class="ui-app-bar-right"></span>
