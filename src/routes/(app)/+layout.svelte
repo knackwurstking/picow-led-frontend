@@ -4,6 +4,8 @@
     import { onMount, type Snippet } from "svelte";
     import * as ui from "ui"
 
+    import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
+
     const { 
         children
     }: {
@@ -28,10 +30,6 @@
             console.debug("ws close...")
             onlineIndicator_DataState = "offline"
         })
-
-        window.ws.events.addListener("error", () => {
-            console.debug("ws error...")
-        })
     })
 </script>
 
@@ -41,8 +39,7 @@
 
 <div class="ui-app-bar" data-ui-position="top">
     <span class="ui-app-bar-left">
-        <!-- TODO: Create a `OnlineIndicator` component -->
-        <span class="online-indicator" data-state={onlineIndicator_DataState}></span>
+        <OnlineIndicator state={onlineIndicator_DataState} />
     </span>
 
     <span class="ui-app-bar-center">
@@ -51,29 +48,3 @@
 
     <span class="ui-app-bar-right"></span>
 </div>
-
-<style>
-    .online-indicator {
-        --mono: 1;
-        --wght: 650;
-        font-size: 0.75rem;
-    }
-
-    .online-indicator[data-state="online"] {
-        color: green;
-    }
-
-    .online-indicator[data-state="online"]::after {
-        content: "Online";
-        color: green;
-    }
-
-    .online-indicator[data-state="offline"] {
-        color: red;
-    }
-
-    .online-indicator[data-state="offline"]::after {
-        content: "Offline";
-        color: red;
-    }
-</style>
