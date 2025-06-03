@@ -14,13 +14,13 @@
     }
 
     async function powerButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
-        const prevPowerButtonState = powerButtonState
         powerButtonState = "processing"
-        try {
-            await api.power.post(addr, power === api.PowerStateON ? api.PowerStateOFF : api.PowerStateON)
-        } finally {
-            powerButtonState = prevPowerButtonState
-        }
+
+        await api.power.post(
+            addr, power === api.PowerStateON 
+                ? api.PowerStateOFF 
+                : api.PowerStateON
+        )
     }
 </script>
 
