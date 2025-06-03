@@ -10,7 +10,7 @@
     let powerButtonState = $derived<"off" | "on" | "processing">(power === 1 ? "on" : "off")
 
     async function editButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
-        // TODO: ...
+        location.href = `./device?addr=${addr}`
     }
 
     async function powerButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
