@@ -61,7 +61,6 @@
 </script>
 
 <svelte:head>
-    <link rel="manifest" href="./manifest.json">
     <title>PicoW LED | Devices</title>
 </svelte:head>
 
