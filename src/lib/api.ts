@@ -13,6 +13,18 @@ export const devices = {
     },
 };
 
+export const device = {
+    async get(addr: string): Promise<Device> {
+        const r = await fetch(`/api/devices/${addr}`);
+
+        if (!r.ok) {
+            throw new Error(r.statusText);
+        }
+
+        return await r.json();
+    },
+};
+
 export const power = {
     async get(addr: string): Promise<PowerState> {
         const r = await fetch(`/api/devices/${addr}/power`);
