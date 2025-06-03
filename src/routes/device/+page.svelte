@@ -65,12 +65,9 @@
         <h2>Color Storage</h2>
 
         {#if device && device.pins.length > 3}
-            <div
-                class="range-sliders ui-flex column gap nowrap"
-                style="display: none"
-            >
+            <div class="range-sliders ui-flex column gap nowrap">
                 {#each device.pins.slice(3) as pin, index}
-                    <ColorRangeSlider {pin} bind:value={device.pins[index+3]} />
+                    <ColorRangeSlider {pin} bind:value={device.color[index+3]} />
                 {/each}
             </div>
         {/if}
