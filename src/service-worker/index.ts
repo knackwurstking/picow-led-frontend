@@ -13,7 +13,8 @@ const cacheFiles = [
 ];
 
 // NOTE: This will be prefixed with ".*" and suffixed with "$"
-const blackList = ["/screenshots/.*", "/service-worker.js", "/manifest.json"];
+//const blackList = ["/screenshots/.*", "/service-worker.js", "/manifest.json"];
+const blackList = [];
 
 self.addEventListener("activate", (evt) => {
     evt.waitUntil(
