@@ -18,7 +18,6 @@
     }
 
     onMount(async () => {
-        // Fetch device from api
         device = await api.device.get(queryAddr)
 
         // TODO: Fetch colors from the api
