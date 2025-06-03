@@ -1,13 +1,19 @@
 <script lang="ts">
+    import "ui/dist/ui.css"
+
     import { onMount } from "svelte";
+    import * as ui from "ui"
 
     import { api, utils } from "$lib"
 
     import ColorRangeSlider from "$lib/components/ColorRangeSlider.svelte";
+    import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
 
     const queryAddr = utils.urlQueryParam("addr")
+    const ws = new ui.WS<WSMessageData>("/ws", true)
 
     let device = $state<Device | undefined>(undefined)
+    let onlineIndicator_DataState = $state<"offline" | "online">("offline")
 
     async function powerOFF() {
         // TODO: ...
@@ -20,6 +26,20 @@
     onMount(async () => {
         device = await api.device.get(queryAddr)
 
+        await ws.connect()
+
+        console.debug("Adding all WebSocket event listeners")
+
+        ws.events.addListener("open", () => {
+            console.debug("ws open...")
+            onlineIndicator_DataState = "online"
+        })
+
+        ws.events.addListener("close", () => {
+            console.debug("ws close...")
+            onlineIndicator_DataState = "offline"
+        })
+
         // TODO: Fetch colors from the api
     })
 </script>
@@ -28,46 +48,65 @@
     <title>PicoW LED | {queryAddr}</title>
 </svelte:head>
 
-<div class="ui-flex column gap">
-    <span class="power ui-flex gap justify-between align-center">
-        <span>Power</span>
+<main class="ui-container">
+    <div class="ui-flex column gap">
+        <span class="power ui-flex gap justify-between align-center">
+            <span>Power</span>
 
-        <span>
-            <button class="off" data-ui-color="destructive" onclick={powerOFF}>
-                OFF
-            </button>
+            <span>
+                <button class="off" data-ui-color="destructive" onclick={powerOFF}>
+                    OFF
+                </button>
 
-            <button class="on" onclick={powerON}>ON</button>
+                <button class="on" onclick={powerON}>ON</button>
+            </span>
         </span>
+
+        <h2>Color Storage</h2>
+
+        {#if device && device.pins.length > 3}
+            <div
+                class="range-sliders ui-flex column gap nowrap"
+                style="display: none"
+            >
+                {#each device.pins.slice(3) as pin, index}
+                    <ColorRangeSlider {pin} bind:value={device.pins[index+3]} />
+                {/each}
+            </div>
+        {/if}
+
+        <br />
+
+        <div class="color-storage-container ui-flex row gap wrap">
+            <!-- TODO: ... -->
+        </div>
+
+        <button class="new-color ui-flex-item">
+            New Color
+
+            <input type="color" />
+        </button>
+    </div>
+</main>
+
+<div class="ui-app-bar" data-ui-position="top">
+    <span class="ui-app-bar-left">
+        <OnlineIndicator state={onlineIndicator_DataState} />
     </span>
 
-    <h2>Color Storage</h2>
+    <span class="ui-app-bar-center">
+        <h4>{device?.name || queryAddr}</h4>
+    </span>
 
-    {#if device && device.pins.length > 3}
-        <div
-            class="range-sliders ui-flex column gap nowrap"
-            style="display: none"
-        >
-            {#each device.pins.slice(3) as pin, index}
-                <ColorRangeSlider {pin} bind:value={device.pins[index+3]} />
-            {/each}
-        </div>
-    {/if}
-
-    <br />
-
-    <div class="color-storage-container ui-flex row gap wrap">
-    </div>
-
-    <button class="new-color ui-flex-item">
-        New Color
-
-        <input type="color" />
-    </button>
+    <span class="ui-app-bar-right"></span>
 </div>
 
 <style>
-    button.new-color input[type="color"] {
+    main {
+        padding-top: calc(var(--ui-app-bar-height) + var(--ui-spacing));
+    }
+
+    main button.new-color input[type="color"] {
         position: absolute;
         opacity: 0;
         top: 0;
