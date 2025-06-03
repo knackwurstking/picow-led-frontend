@@ -4,7 +4,7 @@
     import { onMount, type Snippet } from "svelte";
     import * as ui from "ui"
 
-    import { utils } from "$lib"
+    import { api, utils } from "$lib"
 
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
 
@@ -14,13 +14,15 @@
         children: Snippet<[]>
     } = $props()
 
-    const queryAddr = utils.urlQueryParam("addr")
+    let title = $state<string>(utils.urlQueryParam("addr"))
 
     let onlineIndicator_DataState = $state<"offline" | "online">("offline")
 
     window.ws = new ui.WS<WSMessageData>("/ws", true)
 
     onMount(async () => {
+        title = (await api.device.get(title)).name || title
+
         await window.ws.connect()
 
         console.debug("Adding all WebSocket event listeners")
@@ -47,7 +49,7 @@
     </span>
 
     <span class="ui-app-bar-center">
-        <h4>{queryAddr}</h4>
+        <h4>{title}</h4>
     </span>
 
     <span class="ui-app-bar-right"></span>
