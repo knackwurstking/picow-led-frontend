@@ -49,9 +49,3 @@
         <DeviceItem {...device} />
     {/each}
 </ul>
-
-<style>
-    ul {
-        padding-top: var(--ui-app-bar-height);
-    }
-</style>
