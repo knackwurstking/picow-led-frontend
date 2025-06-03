@@ -9,5 +9,5 @@ preset.maskable.padding = 0;
 
 export default defineConfig({
     preset,
-    images: ["static/favicon.png"],
+    images: ["static/icon.png"],
 });
