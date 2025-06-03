@@ -41,6 +41,7 @@
 
 <div class="ui-app-bar" data-ui-position="top">
     <span class="ui-app-bar-left">
+        <!-- TODO: Create a `OnlineIndicator` component -->
         <span class="online-indicator" data-state={onlineIndicator_DataState}></span>
     </span>
 
