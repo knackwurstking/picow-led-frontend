@@ -46,3 +46,5 @@ export const power = {
         }
     },
 };
+
+// TODO: Colors api handler
