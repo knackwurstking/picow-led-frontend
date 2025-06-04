@@ -1,19 +1,19 @@
 <script lang="ts">
-    import "ui/dist/ui.css"
+    import "ui/dist/ui.css";
 
     import { onMount } from "svelte";
-    import * as ui from "ui"
+    import * as ui from "ui";
 
-    import { api, utils } from "$lib"
+    import { api, utils } from "$lib";
 
     import ColorRangeSlider from "$lib/components/ColorRangeSlider.svelte";
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
 
-    const queryAddr = utils.urlQueryParam("addr")
-    const ws = new ui.WS<WSMessageData>("/ws", true)
+    const queryAddr = utils.urlQueryParam("addr");
+    const ws = new ui.WS<WSMessageData>("/ws", true);
 
-    let device = $state<Device | undefined>(undefined)
-    let onlineIndicator_DataState = $state<"offline" | "online">("offline")
+    let device = $state<Device | undefined>(undefined);
+    let onlineIndicator_DataState = $state<"offline" | "online">("offline");
 
     async function powerOFF() {
         // TODO: ...
@@ -24,24 +24,24 @@
     }
 
     onMount(async () => {
-        device = await api.device.get(queryAddr)
+        device = await api.device.get(queryAddr);
 
-        await ws.connect()
+        await ws.connect();
 
-        console.debug("Adding all WebSocket event listeners")
+        console.debug("Adding all WebSocket event listeners");
 
         ws.events.addListener("open", () => {
-            console.debug("ws open...")
-            onlineIndicator_DataState = "online"
-        })
+            console.debug("ws open...");
+            onlineIndicator_DataState = "online";
+        });
 
         ws.events.addListener("close", () => {
-            console.debug("ws close...")
-            onlineIndicator_DataState = "offline"
-        })
+            console.debug("ws close...");
+            onlineIndicator_DataState = "offline";
+        });
 
         // TODO: Fetch colors from the api
-    })
+    });
 </script>
 
 <svelte:head>
@@ -54,7 +54,11 @@
             <span>Power</span>
 
             <span>
-                <button class="off" data-ui-color="destructive" onclick={powerOFF}>
+                <button
+                    class="off"
+                    data-ui-color="destructive"
+                    onclick={powerOFF}
+                >
                     OFF
                 </button>
 
@@ -67,7 +71,10 @@
         {#if device && device.pins.length > 3}
             <div class="range-sliders ui-flex column gap nowrap">
                 {#each device.pins.slice(3) as pin, index}
-                    <ColorRangeSlider {pin} bind:value={device.color[index+3]} />
+                    <ColorRangeSlider
+                        {pin}
+                        bind:value={device.color[index + 3]}
+                    />
                 {/each}
             </div>
         {/if}
