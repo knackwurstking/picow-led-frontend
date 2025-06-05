@@ -72,9 +72,9 @@
         }}
     />
 
-    <!-- TODO: Delete button bootstrap icon and add some onclick handler -->
+    <!-- svelte-ignore a11y_consider_explicit_label -->
     <button class="delete" data-ui-variant="ghost" data-ui-icon disabled>
-        x
+        <i class="bi bi-x"></i>
     </button>
 </div>
 
