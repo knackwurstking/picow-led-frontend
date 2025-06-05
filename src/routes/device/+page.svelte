@@ -97,6 +97,7 @@
                             }
 
                             activeColorIndex = index;
+                            // TODO: Update POST /api/devices/:addr/color
                         }}
                         onchange={async (color) => {
                             console.debug("Color changed:", color);
