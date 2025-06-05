@@ -30,7 +30,7 @@ declare global {
     type Devices = Device[];
 
     type Color = {
-        id: number;
+        id?: number;
         r: number;
         g: number;
         b: number;

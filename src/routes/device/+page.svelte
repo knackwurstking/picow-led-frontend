@@ -14,8 +14,10 @@
     const ws = new ui.WS<WSMessageData>("/ws", true);
 
     let device = $state<Device | undefined>(undefined);
-    let colors = $state<Colors | undefined>(undefined);
     let onlineIndicator_DataState = $state<"offline" | "online">("offline");
+
+    let colors = $state<Colors | undefined>(undefined);
+    let activeColorIndex = $state<number>(-1);
 
     async function powerOFF() {
         // TODO: ...
@@ -85,8 +87,22 @@
 
         {#if colors && colors.length > 0}
             <div class="color-storage-container ui-flex row gap wrap">
-                {#each colors as color}
-                    <ColorStorageItem {color} />
+                {#each colors as color, index}
+                    <ColorStorageItem
+                        {color}
+                        active={activeColorIndex === index}
+                        onclick={async () => {
+                            if (activeColorIndex === index) {
+                                return;
+                            }
+
+                            activeColorIndex = index;
+                        }}
+                        onchange={async (color) => {
+                            // TODO: Add "onchange", if color has changed
+                            console.debug("Color changed:", color);
+                        }}
+                    />
                 {/each}
             </div>
         {/if}
