@@ -73,7 +73,7 @@
     />
 
     <!-- svelte-ignore a11y_consider_explicit_label -->
-    <button class="delete" data-ui-variant="ghost" data-ui-icon disabled>
+    <button class="delete" data-ui-variant="ghost" data-ui-icon>
         <i class="bi bi-x"></i>
     </button>
 </div>

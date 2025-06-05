@@ -1,63 +1,61 @@
 <script lang="ts">
-    import "ui/dist/ui.css"
-
-    import { onMount } from "svelte"
-    import * as ui from "ui"
+    import { onMount } from "svelte";
+    import * as ui from "ui";
 
     import { api } from "$lib";
 
     import DeviceItem from "$lib/components/DeviceItem.svelte";
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
 
-    const ws = new ui.WS<WSMessageData>("/ws", true)
+    const ws = new ui.WS<WSMessageData>("/ws", true);
 
-    let devices = $state<Devices>([])
-    let onlineIndicator_DataState = $state<"offline" | "online">("offline")
+    let devices = $state<Devices>([]);
+    let onlineIndicator_DataState = $state<"offline" | "online">("offline");
 
     onMount(async () => {
         // Fetch devices from /api and render items
-        devices = await api.devices.get()
+        devices = await api.devices.get();
 
-        await ws.connect()
+        await ws.connect();
 
-        console.debug("Adding all WebSocket event listeners")
+        console.debug("Adding all WebSocket event listeners");
 
         ws.events.addListener("open", () => {
-            console.debug("ws open...")
-            onlineIndicator_DataState = "online"
-        })
+            console.debug("ws open...");
+            onlineIndicator_DataState = "online";
+        });
 
         ws.events.addListener("close", () => {
-            console.debug("ws close...")
-            onlineIndicator_DataState = "offline"
-        })
+            console.debug("ws close...");
+            onlineIndicator_DataState = "offline";
+        });
 
         // Handle WebSocket message events ("devices", "device")
         ws.events.addListener("message", async (data) => {
             switch (data.type) {
                 case "devices":
                     {
-                        console.debug(`ws "devices" event:`, data.data)
+                        console.debug(`ws "devices" event:`, data.data);
 
-                        devices = data.data
+                        devices = data.data;
                     }
-                    break
+                    break;
 
                 case "device":
                     {
-                        console.debug(`ws "device" event:`, data.data)
+                        console.debug(`ws "device" event:`, data.data);
 
                         for (let x = 0; x < devices.length; x++) {
-                            const device = devices[x]
+                            const device = devices[x];
                             if (device.addr === data.data.addr) {
-                                devices[x] = data.data
+                                devices[x] = data.data;
                             }
                         }
                     }
-                    break
+                    break;
             }
-        })
-    })
+        });
+    });
 </script>
 
 <svelte:head>

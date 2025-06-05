@@ -1,6 +1,4 @@
 <script lang="ts">
-    import "ui/dist/ui.css";
-
     import { onMount } from "svelte";
     import * as ui from "ui";
 
