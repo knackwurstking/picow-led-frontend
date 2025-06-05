@@ -1,26 +1,29 @@
 <script lang="ts">
-    import SVGPower from "./SVGPower.svelte"
+    import SVGPower from "./SVGPower.svelte";
 
-    import * as api from "$lib/api"
+    import * as api from "$lib/api";
 
-    let {
-        addr, name, color, pins, active_color, power
-    }: Device = $props()
+    let { addr, name, color, pins, active_color, power }: Device = $props();
 
-    let powerButtonState = $derived<"off" | "on" | "processing">(power === 1 ? "on" : "off")
+    let powerButtonState = $derived<"off" | "on" | "processing">(
+        power === 1 ? "on" : "off",
+    );
 
-    async function editButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
-        location.href = `./device/?addr=${addr}`
+    async function editButtonClick(
+        e: MouseEvent & { currentTarget: HTMLButtonElement },
+    ) {
+        location.href = `./device/?addr=${addr}`;
     }
 
-    async function powerButtonClick(e: MouseEvent & { currentTarget: HTMLButtonElement }) {
-        powerButtonState = "processing"
+    async function powerButtonClick(
+        e: MouseEvent & { currentTarget: HTMLButtonElement },
+    ) {
+        powerButtonState = "processing";
 
         await api.power.post(
-            addr, power === api.PowerStateON 
-                ? api.PowerStateOFF 
-                : api.PowerStateON
-        )
+            addr,
+            power === api.PowerStateON ? api.PowerStateOFF : api.PowerStateON,
+        );
     }
 </script>
 
@@ -43,7 +46,6 @@
 
     <span class="ui-flex-item ui-flex row gap" style="flex: 0">
         <span class="ui-flex-item" style="flex: 0">
-
             <button
                 class="edit"
                 data-ui-variant="ghost"
@@ -52,7 +54,6 @@
             >
                 Edit
             </button>
-
         </span>
 
         <span class="ui-flex-item" style="flex: 0">
@@ -63,14 +64,11 @@
                 data-state={powerButtonState}
                 onclick={powerButtonClick}
             >
-
                 <div
                     class="background"
-                    style="background-color: rgb({
-                        color.length >= 3 
-                            ? color.slice(0, 3).join(", ") 
-                            : "0, 0, 0"
-                    })"
+                    style="background-color: rgb({color.length >= 3
+                        ? color.slice(0, 3).join(', ')
+                        : '0, 0, 0'})"
                 ></div>
 
                 <SVGPower />
