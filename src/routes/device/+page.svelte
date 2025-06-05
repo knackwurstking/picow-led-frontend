@@ -82,9 +82,13 @@
 
         <br />
 
-        <div class="color-storage-container ui-flex row gap wrap">
-            <!-- TODO: Continue here -->
-        </div>
+        {#if colors && colors.length > 0}
+            <div class="color-storage-container ui-flex row gap wrap">
+                {#each colors as color}
+                    <!-- TODO: Continue here -->
+                {/each}
+            </div>
+        {/if}
 
         <button class="new-color ui-flex-item">
             New Color
