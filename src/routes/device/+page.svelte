@@ -8,6 +8,7 @@
 
     import ColorRangeSlider from "$lib/components/ColorRangeSlider.svelte";
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
+    import ColorStorageItem from "$lib/components/ColorStorageItem.svelte";
 
     const queryAddr = utils.urlQueryParam("addr");
     const ws = new ui.WS<WSMessageData>("/ws", true);
@@ -85,7 +86,7 @@
         {#if colors && colors.length > 0}
             <div class="color-storage-container ui-flex row gap wrap">
                 {#each colors as color}
-                    <!-- TODO: Continue here -->
+                    <ColorStorageItem {color} />
                 {/each}
             </div>
         {/if}
