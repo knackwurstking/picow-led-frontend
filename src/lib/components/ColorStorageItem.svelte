@@ -37,4 +37,28 @@
 </div>
 
 <style>
+    .color-storage-item {
+        outline: var(--ui-border-width) solid transparent;
+        outline-offset: var(--ui-border-width);
+        border-radius: var(--ui-radius);
+        cursor: pointer;
+    }
+
+    .color-storage-item.active {
+        outline: var(--ui-border-width) solid var(--ui-primary);
+    }
+
+    .color-storage-item input[type="color"] {
+        display: none;
+        opacity: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .color-storage-item.active input[type="color"] {
+        display: block;
+        position: absolute;
+    }
 </style>
