@@ -47,4 +47,14 @@ export const power = {
     },
 };
 
-// TODO: Colors api handler
+export const colors = {
+    async get(): Promise<Colors> {
+        const r = await fetch(`/api/colors`);
+
+        if (!r.ok) {
+            throw new Error(r.statusText);
+        }
+
+        return await r.json();
+    },
+};
