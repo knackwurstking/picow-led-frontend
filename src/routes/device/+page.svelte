@@ -99,8 +99,9 @@
                             activeColorIndex = index;
                         }}
                         onchange={async (color) => {
-                            // TODO: Add "onchange", if color has changed
                             console.debug("Color changed:", color);
+                            colors![index] = color;
+                            // TODO: Update colors on the backend (PUT /api/colors)
                         }}
                     />
                 {/each}
