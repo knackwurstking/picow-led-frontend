@@ -13,6 +13,7 @@
     const ws = new ui.WS<WSMessageData>("/ws", true);
 
     let device = $state<Device | undefined>(undefined);
+    let colors = $state<Colors | undefined>(undefined);
     let onlineIndicator_DataState = $state<"offline" | "online">("offline");
 
     async function powerOFF() {
@@ -40,7 +41,7 @@
             onlineIndicator_DataState = "offline";
         });
 
-        // TODO: Fetch colors from the api
+        colors = await api.colors.get();
     });
 </script>
 
@@ -82,7 +83,7 @@
         <br />
 
         <div class="color-storage-container ui-flex row gap wrap">
-            <!-- TODO: ... -->
+            <!-- TODO: Continue here -->
         </div>
 
         <button class="new-color ui-flex-item">
