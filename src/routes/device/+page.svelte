@@ -101,10 +101,19 @@
         {#if device && device.pins.length > 3}
             <div class="range-sliders ui-flex column gap nowrap">
                 {#each device.pins.slice(3) as pin, index}
-                    <!-- TODO: Update devices/:addr/color -->
                     <ColorRangeSlider
                         {pin}
                         bind:value={device.color[index + 3]}
+                        onchange={() => {
+                            if (!device || !device.addr || !device.color) {
+                                return;
+                            }
+
+                            api.devices.addr.color.POST(
+                                device.addr,
+                                device.color,
+                            );
+                        }}
                     />
                 {/each}
             </div>
@@ -126,7 +135,12 @@
                             activeColorIndex = index;
 
                             if (device?.addr) {
-                                api.devices.addr.color.POST(device.addr, color);
+                                api.devices.addr.color.POST(device.addr, [
+                                    color.r,
+                                    color.g,
+                                    color.b,
+                                    ...device.color.slice(3),
+                                ]);
                             }
                         }}
                         onchange={async (newColor) => {
