@@ -19,9 +19,4 @@ export default defineConfig({
             },
         },
     },
-    define: {
-        "process.env.SERVER_PATH_PREFIX": JSON.stringify(
-            process.env.SERVER_PATH_PREFIX || "",
-        ),
-    },
 });
