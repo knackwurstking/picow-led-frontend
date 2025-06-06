@@ -12,9 +12,9 @@ declare global {
         // interface Platform {}
     }
 
-    interface Window {
-        ws: import("ui").WS<WSMessageData>;
-    }
+    //interface Window {
+    //    ws: import("ui").WS<WSMessageData>;
+    //}
 
     type PowerState = 0 | 1;
 
