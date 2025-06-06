@@ -19,16 +19,16 @@
     let activeColorIndex = $state<number>(-1);
 
     async function powerOFF() {
-        // TODO: ...
+        // TODO: Turn device power off
     }
 
     async function powerON() {
-        // TODO: ...
+        // TODO: Turn device power on
     }
 
     async function addNewColorStorageItem(hexColor: string) {
         const color = utils.toColor(hexColor);
-        // TODO: ...
+        // TODO: POST a new color: /api/colors (json data: [color])
     }
 
     onMount(async () => {
@@ -105,10 +105,10 @@
                             activeColorIndex = index;
                             // TODO: Update POST /api/devices/:addr/color
                         }}
-                        onchange={async (color) => {
-                            console.debug("Color changed:", color);
-                            colors![index] = color;
-                            // TODO: Update colors on the backend (PUT /api/colors)
+                        onchange={async (newColor) => {
+                            console.debug("Color changed:", color.id, newColor);
+                            colors![index] = { ...color, ...newColor };
+                            // TODO: Change color per id
                         }}
                     />
                 {/each}
