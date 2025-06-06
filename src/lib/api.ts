@@ -5,7 +5,7 @@ export const PowerStateON = 1;
 
 export const devices = {
     async GET(): Promise<Devices> {
-        const url = `/api/devices`;
+        const url = `${process.env.SERVER_PATH_PREFIX}/api/devices`;
 
         try {
             const r = await fetch(url);
