@@ -53,23 +53,19 @@
     }
 
     onMount(async () => {
-        device = await api.devices.addr.GET(queryAddr);
+        window.ws = new WS<WSMessageData>(`../ws`, true);
 
-        if (!window.ws) {
-            window.ws = new WS<WSMessageData>(`../ws`, true);
-        }
+        await window.ws.connect();
 
-        if (!window.ws.isOpen()) {
-            await window.ws.connect();
+        window.ws.events.addListener("open", async () => {
+            onlineIndicator_DataState = "online";
 
-            window.ws.events.addListener("open", () => {
-                onlineIndicator_DataState = "online";
-            });
+            device = await api.devices.addr.GET(queryAddr);
+        });
 
-            window.ws.events.addListener("close", () => {
-                onlineIndicator_DataState = "offline";
-            });
-        }
+        window.ws.events.addListener("close", () => {
+            onlineIndicator_DataState = "offline";
+        });
 
         colors = await api.colors.GET();
     });

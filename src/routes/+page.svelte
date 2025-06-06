@@ -14,50 +14,45 @@
     );
 
     onMount(async () => {
-        // Fetch devices from /api and render items
-        devices = await api.devices.GET();
+        window.ws = new WS<WSMessageData>(`./ws`, true);
+        await window.ws.connect();
 
-        if (!window.ws) {
-            window.ws = new WS<WSMessageData>(`./ws`, true);
-        }
+        window.ws.events.addListener("open", async () => {
+            onlineIndicator_DataState = "online";
 
-        if (!window.ws.isOpen()) {
-            await window.ws.connect();
+            // Fetch devices from /api and render items
+            devices = await api.devices.GET();
+        });
 
-            window.ws.events.addListener("open", () => {
-                onlineIndicator_DataState = "online";
-            });
+        window.ws.events.addListener("close", () => {
+            onlineIndicator_DataState = "offline";
+        });
 
-            window.ws.events.addListener("close", () => {
-                onlineIndicator_DataState = "offline";
-            });
+        // Handle WebSocket message events ("devices", "device")
+        window.ws.events.addListener("message", async (data) => {
+            switch (data.type) {
+                case "devices":
+                    {
+                        console.debug(`ws "devices" event:`, data.data);
 
-            // Handle WebSocket message events ("devices", "device")
-            window.ws.events.addListener("message", async (data) => {
-                switch (data.type) {
-                    case "devices":
-                        {
-                            console.debug(`ws "devices" event:`, data.data);
+                        devices = data.data;
+                    }
+                    break;
 
-                            devices = data.data;
-                        }
-                        break;
+                case "device":
+                    {
+                        console.debug(`ws "device" event:`, data.data);
 
-                    case "device":
-                        {
-                            console.debug(`ws "device" event:`, data.data);
-
-                            for (let x = 0; x < devices.length; x++) {
-                                const device = devices[x];
-                                if (device.addr === data.data.addr) {
-                                    devices[x] = data.data;
-                                }
+                        for (let x = 0; x < devices.length; x++) {
+                            const device = devices[x];
+                            if (device.addr === data.data.addr) {
+                                devices[x] = data.data;
                             }
                         }
-                        break;
-                }
-            });
-        }
+                    }
+                    break;
+            }
+        });
     });
 </script>
 
