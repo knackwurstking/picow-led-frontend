@@ -4,17 +4,27 @@
 
     let {
         type,
-        message,
         timeout = 0, // If number is 0 or lower, timeout handler is ignored
         ondismiss,
         children,
     }: {
         type: ToastDataTypes;
-        message: string;
         timeout?: number;
         ondismiss: () => void | Promise<void>;
         children: Snippet<[]>;
     } = $props();
+
+    const timeoutRunning = $derived(
+        timeout <= 0
+            ? null
+            : setTimeout(() => {
+                  if (timeoutRunning) {
+                      clearTimeout(timeoutRunning);
+                  }
+
+                  ondismiss();
+              }, timeout),
+    );
 </script>
 
 {#if type === "info"}
