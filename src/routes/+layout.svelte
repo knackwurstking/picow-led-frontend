@@ -1,9 +1,12 @@
 <script lang="ts">
-    import "ui/dist/ui.css";
     import "./bootstrap-icons.css";
 
     let { children } = $props();
 </script>
+
+<svelte:head>
+    <link rel="stylesheet" href="../../node_modules/ui/dist/ui.css" />
+</svelte:head>
 
 {@render children()}
 
