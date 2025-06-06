@@ -14,7 +14,7 @@
 
     onMount(async () => {
         // Fetch devices from /api and render items
-        devices = await api.devices.get();
+        devices = await api.devices.GET();
 
         if (!window.ws) {
             window.ws = new WS<WSMessageData>("/ws", true);
