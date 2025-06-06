@@ -3,11 +3,10 @@
     import { WS } from "ui";
 
     import { api } from "$lib";
+    api.setPathPrefix(".");
 
     import DeviceItem from "$lib/components/DeviceItem.svelte";
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
-
-    api.setPathPrefix(".");
 
     let devices = $state<Devices>([]);
     let onlineIndicator_DataState = $state<"offline" | "online">(

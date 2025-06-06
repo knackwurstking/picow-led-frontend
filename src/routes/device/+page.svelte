@@ -3,13 +3,12 @@
     import { WS } from "ui";
 
     import { api, utils } from "$lib";
+    api.setPathPrefix("..");
 
     import ColorRangeSlider from "$lib/components/ColorRangeSlider.svelte";
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
     import ColorStorageItem from "$lib/components/ColorStorageItem.svelte";
     import { PowerStateOFF, PowerStateON } from "$lib/api";
-
-    api.setPathPrefix("..");
 
     const queryAddr = utils.urlQueryParam("addr");
 
