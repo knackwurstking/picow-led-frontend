@@ -1,9 +1,36 @@
 <script lang="ts">
     import "./bootstrap-icons.css";
 
+    import { onMount } from "svelte";
+
     import Toasts from "$lib/components/Toasts.svelte";
+    import { addToast, type ToastData } from "$lib/store/toasts";
 
     let { children } = $props();
+
+    onMount(async () => {
+        const data: Partial<ToastData>[] = [
+            { type: "info", message: "Info test message" },
+            { type: "warning", message: "Warning test message" },
+            { type: "error", message: "Warning test message" },
+            {
+                type: "info",
+                message:
+                    "A very long info test message, I want to test the line break here.",
+            },
+        ];
+
+        const timeoutHandler = (d: Partial<ToastData> | undefined) => {
+            if (!d) {
+                return;
+            }
+
+            addToast(d.type!, d.message!, 10000);
+            setTimeout(() => timeoutHandler(data.shift()), 2500);
+        };
+
+        setTimeout(() => timeoutHandler(data.shift()), 2500);
+    });
 </script>
 
 {@render children()}
