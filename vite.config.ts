@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
     plugins: [sveltekit()],
+    base: process.env.SERVER_PATH_PREFIX,
     server: {
         proxy: {
             "/api": {
