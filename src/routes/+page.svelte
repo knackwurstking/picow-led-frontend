@@ -7,7 +7,7 @@
     import DeviceItem from "$lib/components/DeviceItem.svelte";
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
 
-    api.pathPrefix = ".";
+    api.setPathPrefix(".");
 
     let devices = $state<Devices>([]);
     let onlineIndicator_DataState = $state<"offline" | "online">(

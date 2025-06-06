@@ -1,6 +1,10 @@
 import { addToast } from "./store/toasts";
 
-export let pathPrefix = "";
+let pathPrefix = "";
+
+export function setPathPrefix(prefix: string): void {
+    pathPrefix = prefix;
+}
 
 export const PowerStateOFF = 0;
 export const PowerStateON = 1;

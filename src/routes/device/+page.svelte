@@ -9,7 +9,7 @@
     import ColorStorageItem from "$lib/components/ColorStorageItem.svelte";
     import { PowerStateOFF, PowerStateON } from "$lib/api";
 
-    api.pathPrefix = "../";
+    api.setPathPrefix("..");
 
     const queryAddr = utils.urlQueryParam("addr");
 
