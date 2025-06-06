@@ -9,18 +9,14 @@
         power === 1 ? "on" : "off",
     );
 
-    async function editButtonClick(
-        e: MouseEvent & { currentTarget: HTMLButtonElement },
-    ) {
+    async function editButtonClick() {
         location.href = `./device/?addr=${addr}`;
     }
 
-    async function powerButtonClick(
-        e: MouseEvent & { currentTarget: HTMLButtonElement },
-    ) {
+    async function powerButtonClick() {
         powerButtonState = "processing";
 
-        await api.power.post(
+        await api.devices.addr.power.POST(
             addr,
             power === api.PowerStateON ? api.PowerStateOFF : api.PowerStateON,
         );
