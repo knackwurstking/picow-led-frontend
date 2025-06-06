@@ -9,6 +9,8 @@
     import ColorStorageItem from "$lib/components/ColorStorageItem.svelte";
     import { PowerStateOFF, PowerStateON } from "$lib/api";
 
+    api.pathPrefix = "../";
+
     const queryAddr = utils.urlQueryParam("addr");
 
     let device = $state<Device | undefined>(undefined);
@@ -55,10 +57,7 @@
         device = await api.devices.addr.GET(queryAddr);
 
         if (!window.ws) {
-            window.ws = new WS<WSMessageData>(
-                `${process.env.SERVER_PATH_PREFIX}/ws`,
-                true,
-            );
+            window.ws = new WS<WSMessageData>(`../ws`, true);
         }
 
         if (!window.ws.isOpen()) {

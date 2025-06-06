@@ -7,6 +7,8 @@
     import DeviceItem from "$lib/components/DeviceItem.svelte";
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
 
+    api.pathPrefix = ".";
+
     let devices = $state<Devices>([]);
     let onlineIndicator_DataState = $state<"offline" | "online">(
         window.ws?.isOpen() || false ? "online" : "offline",
@@ -17,10 +19,7 @@
         devices = await api.devices.GET();
 
         if (!window.ws) {
-            window.ws = new WS<WSMessageData>(
-                `${process.env.SERVER_PATH_PREFIX}/ws`,
-                true,
-            );
+            window.ws = new WS<WSMessageData>(`./ws`, true);
         }
 
         if (!window.ws.isOpen()) {

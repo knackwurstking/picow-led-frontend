@@ -1,11 +1,13 @@
 import { addToast } from "./store/toasts";
 
+export let pathPrefix = "";
+
 export const PowerStateOFF = 0;
 export const PowerStateON = 1;
 
 export const devices = {
     async GET(): Promise<Devices> {
-        const url = `${process.env.SERVER_PATH_PREFIX}/api/devices`;
+        const url = `${pathPrefix}/api/devices`;
 
         try {
             const r = await fetch(url);
