@@ -110,6 +110,7 @@
             </div>
         {/if}
 
+        <!-- TODO: Add onclick handler here, add new color item -->
         <button class="new-color ui-flex-item">
             New Color
 
