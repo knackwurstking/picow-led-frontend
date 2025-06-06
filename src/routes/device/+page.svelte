@@ -27,16 +27,24 @@
     onMount(async () => {
         device = await api.device.get(queryAddr);
 
-        const ws = new WS<WSMessageData>("/ws", true);
-        await ws.connect();
+        let ws: WS<WSMessageData>;
+        if (!window.ws) {
+            ws = window.ws = new WS<WSMessageData>("/ws", true);
+        } else {
+            ws = window.ws;
+        }
 
-        ws.events.addListener("open", () => {
-            onlineIndicator_DataState = "online";
-        });
+        if (!window.ws.isOpen()) {
+            await ws.connect();
 
-        ws.events.addListener("close", () => {
-            onlineIndicator_DataState = "offline";
-        });
+            ws.events.addListener("open", () => {
+                onlineIndicator_DataState = "online";
+            });
+
+            ws.events.addListener("close", () => {
+                onlineIndicator_DataState = "offline";
+            });
+        }
 
         colors = await api.colors.get();
     });
