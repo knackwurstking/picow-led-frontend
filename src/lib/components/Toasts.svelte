@@ -6,7 +6,9 @@
     import Toast from "./Toast.svelte";
 </script>
 
-<section class="toasts">
+<section
+    class="toasts ui-flex column gap justify-end align-end ui-auto-scroll ui-hide-scrollbar ui-debug"
+>
     {#each $toasts as toast}
         <Toast
             type={toast.type}

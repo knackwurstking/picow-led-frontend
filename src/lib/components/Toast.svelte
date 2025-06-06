@@ -14,17 +14,7 @@
         children: Snippet<[]>;
     } = $props();
 
-    const timeoutRunning = $derived(
-        timeout <= 0
-            ? null
-            : setTimeout(() => {
-                  if (timeoutRunning) {
-                      clearTimeout(timeoutRunning);
-                  }
-
-                  ondismiss();
-              }, timeout),
-    );
+    let pointer = $derived(timeout > 0);
 </script>
 
 {#if type === "info"}
@@ -32,6 +22,7 @@
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="toast toast-info ui-backdrop ui-border"
+        class:pointer
         onclick={timeout <= 0 ? null : ondismiss}
     >
         {@render children()}
@@ -41,6 +32,7 @@
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="toast toast-warning ui-backdrop ui-border"
+        class:pointer
         onclick={timeout <= 0 ? null : ondismiss}
     >
         {@render children()}
@@ -50,6 +42,7 @@
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="toast toast-error ui-backdrop ui-border"
+        class:pointer
         onclick={timeout <= 0 ? null : ondismiss}
     >
         {@render children()}
@@ -61,6 +54,10 @@
         width: fit-content;
         height: fit-content;
         padding: var(--ui-spacing);
+    }
+
+    .toast.pointer {
+        cursor: pointer;
     }
 
     .toast-warning {

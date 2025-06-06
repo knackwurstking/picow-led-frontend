@@ -9,7 +9,7 @@
     let { children } = $props();
 
     onMount(async () => {
-        const data: Partial<ToastData>[] = [
+        let data: Partial<ToastData>[] = [
             { type: "info", message: "Info test message" },
             { type: "warning", message: "Warning test message" },
             { type: "error", message: "Warning test message" },
@@ -25,11 +25,11 @@
                 return;
             }
 
-            addToast(d.type!, d.message!, 10000);
-            setTimeout(() => timeoutHandler(data.shift()), 2500);
+            addToast(d.type!, d.message!, 5000);
+            setTimeout(() => timeoutHandler(data.shift()), 1000);
         };
 
-        setTimeout(() => timeoutHandler(data.shift()), 2500);
+        setTimeout(() => timeoutHandler(data.shift()), 1000);
     });
 </script>
 

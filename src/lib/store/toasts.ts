@@ -22,8 +22,13 @@ export function addToast(
         ...storeData,
         { id, type, message, timeout },
     ]);
+
+    if (timeout > 0) {
+        setTimeout(() => removeToast(id), timeout);
+    }
 }
 
 export function removeToast(id: number): void {
+    console.debug("Remove Toast with id:", id);
     toasts.update((storeData) => storeData.filter((t) => t.id !== id));
 }
