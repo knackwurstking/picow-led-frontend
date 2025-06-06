@@ -76,4 +76,20 @@ export const colors = {
 
         return await r.json();
     },
+
+    id: {
+        async POST(id: number, color: Color): Promise<void> {
+            const r = await fetch(`/api/colors/${id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(color),
+            });
+
+            if (!r.ok) {
+                throw new Error(r.statusText);
+            }
+        },
+    },
 };
