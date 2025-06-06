@@ -7,6 +7,7 @@
     import ColorRangeSlider from "$lib/components/ColorRangeSlider.svelte";
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
     import ColorStorageItem from "$lib/components/ColorStorageItem.svelte";
+    import { PowerStateOFF, PowerStateON } from "$lib/api";
 
     const queryAddr = utils.urlQueryParam("addr");
 
@@ -19,11 +20,19 @@
     let activeColorIndex = $state<number>(-1);
 
     async function powerOFF() {
-        // TODO: Turn device power off
+        if (!device?.addr) {
+            return;
+        }
+
+        api.devices.addr.power.POST(device.addr, PowerStateOFF);
     }
 
     async function powerON() {
-        // TODO: Turn device power on
+        if (!device?.addr) {
+            return;
+        }
+
+        api.devices.addr.power.POST(device.addr, PowerStateON);
     }
 
     async function addNewColorStorageItem(hexColor: string) {
