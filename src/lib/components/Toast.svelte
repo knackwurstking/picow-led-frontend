@@ -48,6 +48,12 @@
 {/if}
 
 <style>
+    .toast {
+        width: fit-content;
+        height: fit-content;
+        padding: var(--ui-spacing);
+    }
+
     .toast-warning {
         color: var(--ui-warning-text);
         background-color: var(--ui-warning);

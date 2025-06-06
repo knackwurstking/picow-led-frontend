@@ -31,10 +31,4 @@
         height: fit-content;
         max-height: calc(100% - var(--ui-spacing) * 2);
     }
-
-    .toasts > * {
-        width: fit-content;
-        height: fit-content;
-        padding: var(--ui-spacing);
-    }
 </style>
