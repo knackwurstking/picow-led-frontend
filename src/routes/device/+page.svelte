@@ -24,7 +24,7 @@
             return;
         }
 
-        api.devices.addr.power.POST(device.addr, PowerStateOFF);
+        await api.devices.addr.power.POST(device.addr, PowerStateOFF);
     }
 
     async function powerON() {
@@ -32,7 +32,7 @@
             return;
         }
 
-        api.devices.addr.power.POST(device.addr, PowerStateON);
+        await api.devices.addr.power.POST(device.addr, PowerStateON);
     }
 
     async function addNewColorStorageItem(hexColor: string) {
@@ -48,7 +48,7 @@
             colors.push(color);
         }
 
-        // TODO: POST color to colors /api/colors
+        await api.colors.POST([color]);
     }
 
     onMount(async () => {
@@ -104,12 +104,12 @@
                     <ColorRangeSlider
                         {pin}
                         bind:value={device.color[index + 3]}
-                        onchange={() => {
+                        onchange={async () => {
                             if (!device || !device.addr || !device.color) {
                                 return;
                             }
 
-                            api.devices.addr.color.POST(
+                            await api.devices.addr.color.POST(
                                 device.addr,
                                 device.color,
                             );
@@ -135,7 +135,7 @@
                             activeColorIndex = index;
 
                             if (device?.addr) {
-                                api.devices.addr.color.POST(device.addr, [
+                                await api.devices.addr.color.POST(device.addr, [
                                     color.r,
                                     color.g,
                                     color.b,
@@ -149,7 +149,7 @@
                             colors![index] = { ...color, ...newColor };
 
                             if (color.id !== undefined) {
-                                api.colors.id.POST(color.id, newColor);
+                                await api.colors.id.POST(color.id, newColor);
                             }
                         }}
                     />
