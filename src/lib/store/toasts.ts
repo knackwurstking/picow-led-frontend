@@ -16,9 +16,14 @@ export function addToast(
     message: string,
     timeout: number = 0,
 ): void {
-    // TODO: ...
+    const id = new Date().getTime();
+
+    toasts.update((storeData) => [
+        ...storeData,
+        { id, type, message, timeout },
+    ]);
 }
 
-export function dismissToast(id: number): void {
-    // TODO: ...
+export function removeToast(id: number): void {
+    toasts.update((storeData) => storeData.filter((t) => t.id !== id));
 }
