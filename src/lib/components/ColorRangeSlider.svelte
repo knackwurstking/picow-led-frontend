@@ -1,34 +1,21 @@
 <script lang="ts">
-    let { 
-        value = $bindable(), 
-        pin 
-    }: { 
-        value: number, 
-        pin: number 
-    } = $props()
+    let {
+        value = $bindable(),
+        pin,
+        onchange,
+    }: {
+        value: number;
+        pin: number;
+        onchange: () => void | Promise<void>;
+    } = $props();
 </script>
 
-<span
-    class="color-range-slider ui-flex column justify-start"
->
+<span class="color-range-slider ui-flex column justify-start">
     <span class="title">{pin}</span>
 
     <span class="container ui-flex row gap nowrap">
-        <input 
-            type="range" 
-            min="0" 
-            max="255" 
-            step="1" 
-            bind:value
-        />
-
-        <input 
-            type="number" 
-            min="0" 
-            max="255" 
-            step="1" 
-            bind:value
-        />
+        <input type="range" min="0" max="255" step="1" bind:value {onchange} />
+        <input type="number" min="0" max="255" step="1" bind:value {onchange} />
     </span>
 </span>
 
