@@ -135,12 +135,17 @@
                             activeColorIndex = index;
 
                             if (device?.addr) {
-                                await api.devices.addr.color.POST(device.addr, [
+                                const newColor = [
                                     color.r,
                                     color.g,
                                     color.b,
                                     ...device.color.slice(3),
-                                ]);
+                                ];
+
+                                await api.devices.addr.color.POST(
+                                    device.addr,
+                                    newColor,
+                                );
                             }
                         }}
                         onchange={async (newColor) => {
