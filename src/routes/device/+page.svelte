@@ -26,6 +26,11 @@
         // TODO: ...
     }
 
+    async function addNewColorStorageItem(hexColor: string) {
+        const color = utils.toColor(hexColor);
+        // TODO: ...
+    }
+
     onMount(async () => {
         device = await api.device.get(queryAddr);
 
@@ -110,11 +115,13 @@
             </div>
         {/if}
 
-        <!-- TODO: Add onclick handler here, add new color item -->
         <button class="new-color ui-flex-item">
             New Color
-
-            <input type="color" />
+            <input
+                type="color"
+                onchange={(ev) =>
+                    addNewColorStorageItem(ev.currentTarget.value)}
+            />
         </button>
     </div>
 </main>
