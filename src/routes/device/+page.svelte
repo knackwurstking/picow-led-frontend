@@ -27,12 +27,23 @@
     }
 
     async function addNewColorStorageItem(hexColor: string) {
+        if (!device?.addr) {
+            return;
+        }
+
         const color = utils.toColor(hexColor);
-        // TODO: POST a new color: /api/colors (json data: [color])
+
+        if (!colors) {
+            colors = [color];
+        } else {
+            colors.push(color);
+        }
+
+        // TODO: POST color to colors /api/colors
     }
 
     onMount(async () => {
-        device = await api.device.get(queryAddr);
+        device = await api.devices.addr.GET(queryAddr);
 
         if (!window.ws) {
             window.ws = new WS<WSMessageData>("/ws", true);
@@ -50,7 +61,7 @@
             });
         }
 
-        colors = await api.colors.get();
+        colors = await api.colors.GET();
     });
 </script>
 
@@ -103,7 +114,10 @@
                             }
 
                             activeColorIndex = index;
-                            // TODO: Update POST /api/devices/:addr/color
+
+                            if (device?.addr) {
+                                api.devices.addr.color.POST(device.addr, color);
+                            }
                         }}
                         onchange={async (newColor) => {
                             console.debug("Color changed:", color.id, newColor);
