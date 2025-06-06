@@ -1,7 +1,7 @@
 <script lang="ts">
     // NOTE: https://svelte.dev/playground/0091c8b604b74ed88bb7b6d174504f50?version=3.35.0
 
-    import { toasts, removeToast } from "../store/toasts";
+    import { toasts, removeToast } from "../stores/toasts";
 
     import Toast from "./Toast.svelte";
 </script>

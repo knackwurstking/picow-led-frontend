@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import type { ToastDataTypes } from "../store/toasts";
+    import type { ToastDataTypes } from "../stores/toasts";
 
     let {
         type,
