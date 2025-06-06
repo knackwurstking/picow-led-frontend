@@ -29,7 +29,7 @@ export const devices = {
 
     addr: {
         async GET(addr: string): Promise<Device> {
-            const url = `/api/devices/${addr}`;
+            const url = `${pathPrefix}/api/devices/${addr}`;
 
             try {
                 const r = await fetch(url);
@@ -47,7 +47,7 @@ export const devices = {
 
         color: {
             async POST(addr: string, color: number[]): Promise<void> {
-                const url = `/api/devices/${addr}/color`;
+                const url = `${pathPrefix}/api/devices/${addr}/color`;
 
                 try {
                     const r = await fetch(url, {
@@ -70,7 +70,7 @@ export const devices = {
 
         power: {
             async GET(addr: string): Promise<PowerState> {
-                const url = `/api/devices/${addr}/power`;
+                const url = `${pathPrefix}/api/devices/${addr}/power`;
 
                 try {
                     const r = await fetch(url);
@@ -87,7 +87,7 @@ export const devices = {
             },
 
             async POST(addr: string, state: PowerState) {
-                const url = `/api/devices/${addr}/power?state=${state}`;
+                const url = `${pathPrefix}/api/devices/${addr}/power?state=${state}`;
 
                 try {
                     const r = await fetch(url, {
@@ -108,7 +108,7 @@ export const devices = {
 
 export const colors = {
     async GET(): Promise<Colors> {
-        const url = `/api/colors`;
+        const url = `${pathPrefix}/api/colors`;
 
         try {
             const r = await fetch(url);
@@ -125,7 +125,7 @@ export const colors = {
     },
 
     async POST(colors: Colors): Promise<void> {
-        const url = `/api/colors`;
+        const url = `${pathPrefix}/api/colors`;
 
         try {
             const r = await fetch(url, {
@@ -147,7 +147,7 @@ export const colors = {
 
     id: {
         async POST(id: number, color: Color): Promise<void> {
-            const url = `/api/colors/${id}`;
+            const url = `${pathPrefix}/api/colors/${id}`;
 
             try {
                 const r = await fetch(url, {
