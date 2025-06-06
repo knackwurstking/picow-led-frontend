@@ -11,7 +11,9 @@
     const queryAddr = utils.urlQueryParam("addr");
 
     let device = $state<Device | undefined>(undefined);
-    let onlineIndicator_DataState = $state<"offline" | "online">("offline");
+    let onlineIndicator_DataState = $state<"offline" | "online">(
+        window.ws?.isOpen() ? "online" : "offline",
+    );
 
     let colors = $state<Colors | undefined>(undefined);
     let activeColorIndex = $state<number>(-1);
@@ -27,21 +29,18 @@
     onMount(async () => {
         device = await api.device.get(queryAddr);
 
-        let ws: WS<WSMessageData>;
         if (!window.ws) {
-            ws = window.ws = new WS<WSMessageData>("/ws", true);
-        } else {
-            ws = window.ws;
+            window.ws = new WS<WSMessageData>("/ws", true);
         }
 
         if (!window.ws.isOpen()) {
-            await ws.connect();
+            await window.ws.connect();
 
-            ws.events.addListener("open", () => {
+            window.ws.events.addListener("open", () => {
                 onlineIndicator_DataState = "online";
             });
 
-            ws.events.addListener("close", () => {
+            window.ws.events.addListener("close", () => {
                 onlineIndicator_DataState = "offline";
             });
         }

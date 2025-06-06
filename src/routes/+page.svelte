@@ -8,32 +8,31 @@
     import OnlineIndicator from "$lib/components/OnlineIndicator.svelte";
 
     let devices = $state<Devices>([]);
-    let onlineIndicator_DataState = $state<"offline" | "online">("offline");
+    let onlineIndicator_DataState = $state<"offline" | "online">(
+        window.ws?.isOpen() || false ? "online" : "offline",
+    );
 
     onMount(async () => {
         // Fetch devices from /api and render items
         devices = await api.devices.get();
 
-        let ws: WS<WSMessageData>;
         if (!window.ws) {
-            ws = new WS<WSMessageData>("/ws", true);
-        } else {
-            ws = window.ws;
+            window.ws = new WS<WSMessageData>("/ws", true);
         }
 
         if (!window.ws.isOpen()) {
-            await ws.connect();
+            await window.ws.connect();
 
-            ws.events.addListener("open", () => {
+            window.ws.events.addListener("open", () => {
                 onlineIndicator_DataState = "online";
             });
 
-            ws.events.addListener("close", () => {
+            window.ws.events.addListener("close", () => {
                 onlineIndicator_DataState = "offline";
             });
 
             // Handle WebSocket message events ("devices", "device")
-            ws.events.addListener("message", async (data) => {
+            window.ws.events.addListener("message", async (data) => {
                 switch (data.type) {
                     case "devices":
                         {
