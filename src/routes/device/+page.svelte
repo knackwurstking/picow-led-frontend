@@ -101,6 +101,7 @@
         {#if device && device.pins.length > 3}
             <div class="range-sliders ui-flex column gap nowrap">
                 {#each device.pins.slice(3) as pin, index}
+                    <!-- TODO: Update devices/:addr/color -->
                     <ColorRangeSlider
                         {pin}
                         bind:value={device.color[index + 3]}
