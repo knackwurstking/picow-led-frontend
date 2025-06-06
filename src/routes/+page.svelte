@@ -17,7 +17,10 @@
         devices = await api.devices.GET();
 
         if (!window.ws) {
-            window.ws = new WS<WSMessageData>("/ws", true);
+            window.ws = new WS<WSMessageData>(
+                `${process.env.SERVER_PATH_PREFIX}/ws`,
+                true,
+            );
         }
 
         if (!window.ws.isOpen()) {
