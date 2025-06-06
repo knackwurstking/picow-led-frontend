@@ -1,4 +1,4 @@
-import { addToast } from "./store/toasts";
+import { addToast } from "./stores/toasts";
 
 let pathPrefix = "";
 
