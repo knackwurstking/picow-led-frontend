@@ -25,7 +25,7 @@ export const devices = {
 
         color: {
             async POST(addr: string, color: number[]): Promise<void> {
-                const r = await fetch(`/api/devices/${addr}/power`, {
+                const r = await fetch(`/api/devices/${addr}/color`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
