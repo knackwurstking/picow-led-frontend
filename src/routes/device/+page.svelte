@@ -130,8 +130,12 @@
                         }}
                         onchange={async (newColor) => {
                             console.debug("Color changed:", color.id, newColor);
+
                             colors![index] = { ...color, ...newColor };
-                            // TODO: Change color per id
+
+                            if (color.id !== undefined) {
+                                api.colors.id.POST(color.id, newColor);
+                            }
                         }}
                     />
                 {/each}
