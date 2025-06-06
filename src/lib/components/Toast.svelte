@@ -30,19 +30,28 @@
 {#if type === "info"}
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="toast toast-info ui-backdrop ui-border" onclick={ondismiss}>
+    <div
+        class="toast toast-info ui-backdrop ui-border"
+        onclick={timeout <= 0 ? null : ondismiss}
+    >
         {@render children()}
     </div>
 {:else if type === "warning"}
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="toast toast-warning ui-backdrop ui-border" onclick={ondismiss}>
+    <div
+        class="toast toast-warning ui-backdrop ui-border"
+        onclick={timeout <= 0 ? null : ondismiss}
+    >
         {@render children()}
     </div>
 {:else if type === "error"}
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="toast toast-error ui-backdrop ui-border" onclick={ondismiss}>
+    <div
+        class="toast toast-error ui-backdrop ui-border"
+        onclick={timeout <= 0 ? null : ondismiss}
+    >
         {@render children()}
     </div>
 {/if}
