@@ -2,7 +2,7 @@ export const PowerStateOFF = 0;
 export const PowerStateON = 1;
 
 export const devices = {
-    async get(): Promise<Devices> {
+    async GET(): Promise<Devices> {
         const r = await fetch(`/api/devices`);
 
         if (!r.ok) {
@@ -11,44 +11,63 @@ export const devices = {
 
         return await r.json();
     },
-};
 
-export const device = {
-    async get(addr: string): Promise<Device> {
-        const r = await fetch(`/api/devices/${addr}`);
+    addr: {
+        async GET(addr: string): Promise<Device> {
+            const r = await fetch(`/api/devices/${addr}`);
 
-        if (!r.ok) {
-            throw new Error(r.statusText);
-        }
+            if (!r.ok) {
+                throw new Error(r.statusText);
+            }
 
-        return await r.json();
-    },
-};
+            return await r.json();
+        },
 
-export const power = {
-    async get(addr: string): Promise<PowerState> {
-        const r = await fetch(`/api/devices/${addr}/power`);
+        color: {
+            async POST(addr: string, color: Color): Promise<void> {
+                const r = await fetch(`/api/devices/${addr}/power`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(color),
+                });
 
-        if (!r.ok) {
-            throw new Error(r.statusText);
-        }
+                if (!r.ok) {
+                    throw new Error(r.statusText);
+                }
+            },
+        },
 
-        return await r.json();
-    },
+        power: {
+            async GET(addr: string): Promise<PowerState> {
+                const r = await fetch(`/api/devices/${addr}/power`);
 
-    async post(addr: string, state: PowerState) {
-        const r = await fetch(`/api/devices/${addr}/power?state=${state}`, {
-            method: "POST",
-        });
+                if (!r.ok) {
+                    throw new Error(r.statusText);
+                }
 
-        if (!r.ok) {
-            throw new Error(r.statusText);
-        }
+                return await r.json();
+            },
+
+            async POST(addr: string, state: PowerState) {
+                const r = await fetch(
+                    `/api/devices/${addr}/power?state=${state}`,
+                    {
+                        method: "POST",
+                    },
+                );
+
+                if (!r.ok) {
+                    throw new Error(r.statusText);
+                }
+            },
+        },
     },
 };
 
 export const colors = {
-    async get(): Promise<Colors> {
+    async GET(): Promise<Colors> {
         const r = await fetch(`/api/colors`);
 
         if (!r.ok) {
