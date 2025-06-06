@@ -1,7 +1,7 @@
 <script lang="ts">
     // NOTE: https://svelte.dev/playground/0091c8b604b74ed88bb7b6d174504f50?version=3.35.0
 
-    import { toasts, dismissToast } from "../store/toasts";
+    import { toasts, removeToast } from "../store/toasts";
 
     import Toast from "./Toast.svelte";
 </script>
@@ -12,7 +12,7 @@
             type={toast.type}
             timeout={toast.timeout}
             ondismiss={async () => {
-                dismissToast(toast.id);
+                removeToast(toast.id);
             }}
         >
             {toast.message}
