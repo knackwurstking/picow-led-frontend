@@ -1,10 +1,7 @@
 <script lang="ts">
     import "./bootstrap-icons.css";
 
-    import { onMount } from "svelte";
-
     import Toasts from "$lib/components/Toasts.svelte";
-    import { addToast, type ToastData } from "$lib/store/toasts";
 
     let { children } = $props();
 
