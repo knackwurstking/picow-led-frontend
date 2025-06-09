@@ -22,7 +22,7 @@
     //        if (!d) {
     //            return;
     //        }
-    //        addToast(d.type!, d.message!, 5000);
+    //        addToast(d.type!, d.message!, 0);
     //        setTimeout(() => timeoutHandler(data.shift()), 1000);
     //    };
     //    setTimeout(() => timeoutHandler(data.shift()), 1000);
