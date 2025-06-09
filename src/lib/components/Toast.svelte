@@ -23,7 +23,7 @@
     <div
         class="toast toast-info ui-backdrop ui-border"
         class:pointer
-        onclick={timeout <= 0 ? null : ondismiss}
+        onclick={pointer ? null : ondismiss}
     >
         {@render children()}
     </div>
@@ -33,7 +33,7 @@
     <div
         class="toast toast-warning ui-backdrop ui-border"
         class:pointer
-        onclick={timeout <= 0 ? null : ondismiss}
+        onclick={pointer ? null : ondismiss}
     >
         {@render children()}
     </div>
@@ -43,7 +43,7 @@
     <div
         class="toast toast-error ui-backdrop ui-border"
         class:pointer
-        onclick={timeout <= 0 ? null : ondismiss}
+        onclick={pointer ? null : ondismiss}
     >
         {@render children()}
     </div>
