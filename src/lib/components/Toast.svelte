@@ -13,38 +13,24 @@
         ondismiss: () => void | Promise<void>;
         children: Snippet<[]>;
     } = $props();
-
-    let pointer = $derived(timeout > 0);
 </script>
 
 {#if type === "info"}
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
-        class="toast toast-info ui-backdrop ui-border"
-        class:pointer
-        onclick={pointer ? null : ondismiss}
-    >
+    <div class="toast toast-info ui-backdrop ui-border" onclick={ondismiss}>
         {@render children()}
     </div>
 {:else if type === "warning"}
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
-        class="toast toast-warning ui-backdrop ui-border"
-        class:pointer
-        onclick={pointer ? null : ondismiss}
-    >
+    <div class="toast toast-warning ui-backdrop ui-border" onclick={ondismiss}>
         {@render children()}
     </div>
 {:else if type === "error"}
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div
-        class="toast toast-error ui-backdrop ui-border"
-        class:pointer
-        onclick={pointer ? null : ondismiss}
-    >
+    <div class="toast toast-error ui-backdrop ui-border" onclick={ondismiss}>
         {@render children()}
     </div>
 {/if}
@@ -54,9 +40,6 @@
         width: fit-content;
         height: fit-content;
         padding: var(--ui-spacing);
-    }
-
-    .toast.pointer {
         cursor: pointer;
     }
 
