@@ -7,7 +7,7 @@
 </script>
 
 <section
-    class="toasts ui-flex column gap justify-end align-en ui-auto-scroll ui-hide-scrollbar"
+    class="toasts ui-flex column gap justify-end align-end ui-auto-scroll ui-hide-scrollbar"
 >
     {#each $toasts as toast}
         <Toast
