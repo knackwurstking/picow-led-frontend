@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.3 - unreleased
+
+**Changed**:
+
+- The service worker changed a bit
+
 ## v0.1.2 - 2025-06-09
 
 - Set transition to any element [Experimental]

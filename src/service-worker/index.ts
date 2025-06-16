@@ -1,93 +1,81 @@
-/// <reference lib="webworker" />
 /// <reference types="@sveltejs/kit" />
-
 import { build, files, version } from "$service-worker";
 
-const CURRENT_CACHE = `picow-led-${version}`;
+// Create a unique cache name for this deployment
+const CACHE = `cache-${version}`;
 
-const cacheFiles = [
-    ...build,
-    ...files,
-
+const ASSETS = [
+    ...build, // the app itself
+    ...files, // everything in `static`
     "https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap",
 ];
 
-// NOTE: This will be prefixed with ".*" and suffixed with "$"
-//const blackList = ["/screenshots/.*", "/service-worker.js", "/manifest.json"];
-const blackList = [];
-
-self.addEventListener("activate", (evt) => {
-    evt.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheName !== CURRENT_CACHE) {
-                        return caches.delete(cacheName);
-                    }
-                }),
-            );
-        }),
-    );
-});
-
-self.addEventListener("install", (evt) => {
-    evt.waitUntil(
-        (() => {
-            caches
-                .keys()
-                .then((keyList) => {
-                    return Promise.all(
-                        keyList.map(function (key) {
-                            return caches.delete(key);
-                        }),
-                    );
-                })
-                .then(() => {
-                    caches.open(CURRENT_CACHE).then((cache) => {
-                        return cache.addAll(cacheFiles);
-                    });
-                });
-        })(),
-    );
-});
-
-const fromNetwork = (request: Request, timeout: number) => {
-    return new Promise((resolve, reject) => {
-        const timeoutId = setTimeout(reject, timeout);
-
-        fetch(request).then((response) => {
-            clearTimeout(timeoutId);
-            update(request, response.clone());
-            resolve(response);
-        }, reject);
-    });
-};
-
-const fromCache = async (request: Request) => {
-    const cache = await caches.open(CURRENT_CACHE);
-    const matching = await cache.match(request);
-    return matching || cache.match("/offline/");
-};
-
-const update = async (request: Request, response: Response) => {
-    const cache = await caches.open(CURRENT_CACHE);
-    cache.put(request, response);
-};
-
-const isBlackListed = (url: string) => {
-    return blackList.find((path) => new RegExp(".*" + path + "$").test(url));
-};
-
-// @ts-expect-error
-self.addEventListener("fetch", (evt: Event & { request: Request }) => {
-    if (!isBlackListed(evt.request.url)) {
-        console.debug(`fetch: caching: ${evt.request.url}`);
-
-        // @ts-expect-error
-        evt.respondWith(
-            fromNetwork(evt.request, 1e4).catch(() => fromCache(evt.request)),
-        );
-    } else {
-        console.debug(`fetch: no caching for: ${evt.request.url}`);
+self.addEventListener("install", (event) => {
+    // Create a new cache and add all files to it
+    async function addFilesToCache() {
+        const cache = await caches.open(CACHE);
+        await cache.addAll(ASSETS);
     }
+
+    event.waitUntil(addFilesToCache());
+});
+
+self.addEventListener("activate", (event) => {
+    // Remove previous cached data from disk
+    async function deleteOldCaches() {
+        for (const key of await caches.keys()) {
+            if (key !== CACHE) await caches.delete(key);
+        }
+    }
+
+    event.waitUntil(deleteOldCaches());
+});
+
+self.addEventListener("fetch", (event) => {
+    // ignore POST requests etc
+    if (event.request.method !== "GET") return;
+
+    async function respond() {
+        const url = new URL(event.request.url);
+        const cache = await caches.open(CACHE);
+
+        // `build`/`files` can always be served from the cache
+        if (ASSETS.includes(url.pathname)) {
+            const response = await cache.match(url.pathname);
+
+            if (response) {
+                return response;
+            }
+        }
+
+        // for everything else, try the network first, but
+        // fall back to the cache if we're offline
+        try {
+            const response = await fetch(event.request);
+
+            // if we're offline, fetch can return a value that is not a Response
+            // instead of throwing - and we can't pass this non-Response to respondWith
+            if (!(response instanceof Response)) {
+                throw new Error("invalid response from fetch");
+            }
+
+            if (response.status === 200) {
+                cache.put(event.request, response.clone());
+            }
+
+            return response;
+        } catch (err) {
+            const response = await cache.match(event.request);
+
+            if (response) {
+                return response;
+            }
+
+            // if there's no cache, then just error out
+            // as there is nothing we can do to respond to this request
+            throw err;
+        }
+    }
+
+    event.respondWith(respond());
 });
