@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.4 - unreleased
+
+**Added**:
+
+- service-worker: "./" to ASSETS (testing)
+
 ## v0.1.3 - 2025-06-16 
 
 **Changed**:
