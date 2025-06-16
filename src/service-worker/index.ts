@@ -5,6 +5,7 @@ import { build, files, version } from "$service-worker";
 const CACHE = `cache-${version}`;
 
 const ASSETS = [
+    "./",
     ...build, // the app itself
     ...files, // everything in `static`
     "https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap",
