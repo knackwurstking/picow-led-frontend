@@ -175,13 +175,19 @@
             </div>
         {/if}
 
-        <button class="new-color ui-flex-item">
+        <button
+            class="new-color ui-flex-item"
+            onclick={() => {
+                addNewColorStorageItem(
+                    utils.toHex({
+                        r: 255,
+                        g: 255,
+                        b: 255,
+                    }),
+                );
+            }}
+        >
             New Color
-            <input
-                type="color"
-                onchange={(ev) =>
-                    addNewColorStorageItem(ev.currentTarget.value)}
-            />
         </button>
     </div>
 </main>
