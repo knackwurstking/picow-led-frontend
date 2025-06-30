@@ -84,6 +84,25 @@
         });
 
         colors = await api.colors.GET();
+
+        if (device?.active_color) {
+            const match =
+                colors.find((c) => {
+                    if (
+                        c.r === device!.active_color[0] &&
+                        c.g === device!.active_color[1] &&
+                        c.b === device!.active_color[2]
+                    ) {
+                        return true;
+                    }
+
+                    return false;
+                }) || -1;
+
+            if (match !== -1) {
+                activeColorIndex = colors.indexOf(match);
+            }
+        }
     });
 </script>
 
