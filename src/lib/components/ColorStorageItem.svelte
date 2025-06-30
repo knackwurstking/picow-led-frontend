@@ -6,11 +6,13 @@
         active = false,
         onclick,
         onchange,
+        ondelete,
     }: {
         color: Color;
         active: boolean;
         onclick?: (() => void | Promise<void>) | null;
         onchange?: ((color: Color) => void | Promise<void>) | null;
+        ondelete?: (() => void | Promise<void>) | null;
     } = $props();
 </script>
 
@@ -36,7 +38,18 @@
     />
 
     <!-- svelte-ignore a11y_consider_explicit_label -->
-    <button class="delete" data-ui-variant="ghost" data-ui-icon>
+    <button
+        class="delete"
+        data-ui-variant="ghost"
+        data-ui-icon
+        onclick={(ev) => {
+            ev.stopPropagation();
+
+            if (ondelete) {
+                ondelete();
+            }
+        }}
+    >
         <i class="bi bi-x"></i>
     </button>
 </div>

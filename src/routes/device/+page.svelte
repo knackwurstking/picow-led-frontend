@@ -61,6 +61,7 @@
             onlineIndicator_DataState = "online";
 
             device = await api.devices.addr.GET(queryAddr);
+            updateActiveColorIndex();
         });
 
         window.ws.events.addListener("close", () => {
@@ -70,6 +71,11 @@
         // Handle WebSocket message events ("devices", "device")
         window.ws.events.addListener("message", async (data) => {
             switch (data.type) {
+                case "colors":
+                    colors = data.data;
+                    updateActiveColorIndex();
+                    break;
+
                 case "device":
                     {
                         if (device?.addr !== data.data.addr) {
@@ -84,26 +90,29 @@
         });
 
         colors = await api.colors.GET();
-
-        if (device?.active_color) {
-            const match =
-                colors.find((c) => {
-                    if (
-                        c.r === device!.active_color[0] &&
-                        c.g === device!.active_color[1] &&
-                        c.b === device!.active_color[2]
-                    ) {
-                        return true;
-                    }
-
-                    return false;
-                }) || -1;
-
-            if (match !== -1) {
-                activeColorIndex = colors.indexOf(match);
-            }
-        }
+        updateActiveColorIndex();
     });
+
+    function updateActiveColorIndex() {
+        if (!colors || !device?.active_color) return;
+
+        const match =
+            colors.find((c) => {
+                if (
+                    c.r === device!.active_color[0] &&
+                    c.g === device!.active_color[1] &&
+                    c.b === device!.active_color[2]
+                ) {
+                    return true;
+                }
+
+                return false;
+            }) || -1;
+
+        if (match !== -1) {
+            activeColorIndex = colors.indexOf(match);
+        }
+    }
 </script>
 
 <svelte:head>
@@ -189,6 +198,13 @@
                                 await api.colors.id.POST(color.id, newColor);
                             }
                         }}
+                        ondelete={async () => {
+                            if (!colors) return;
+
+                            api.colors.PUT([
+                                ...colors.filter((c) => c.id !== color.id),
+                            ]);
+                        }}
                     />
                 {/each}
             </div>
@@ -226,14 +242,5 @@
 <style>
     main {
         padding-top: calc(var(--ui-app-bar-height) + var(--ui-spacing));
-    }
-
-    main button.new-color input[type="color"] {
-        position: absolute;
-        opacity: 0;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
     }
 </style>

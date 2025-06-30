@@ -145,6 +145,27 @@ export const colors = {
         }
     },
 
+    async PUT(colors: Colors): Promise<void> {
+        const url = `${pathPrefix}/api/colors`;
+
+        try {
+            const r = await fetch(url, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(colors),
+            });
+
+            if (!r.ok) {
+                throw new Error(r.statusText);
+            }
+        } catch (err) {
+            addToast("error", `Fetch failed: ${url}: ${err}`);
+            throw err;
+        }
+    },
+
     id: {
         async POST(id: number, color: Color): Promise<void> {
             const url = `${pathPrefix}/api/colors/${id}`;
