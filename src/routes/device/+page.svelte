@@ -67,6 +67,22 @@
             onlineIndicator_DataState = "offline";
         });
 
+        // Handle WebSocket message events ("devices", "device")
+        window.ws.events.addListener("message", async (data) => {
+            switch (data.type) {
+                case "device":
+                    {
+                        if (device?.addr !== data.data.addr) {
+                            return;
+                        }
+
+                        console.debug(`ws "device" event:`, data.data);
+                        device = data.data;
+                    }
+                    break;
+            }
+        });
+
         colors = await api.colors.GET();
     });
 </script>
